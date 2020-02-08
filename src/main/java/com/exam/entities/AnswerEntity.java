@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -15,14 +13,13 @@ import lombok.Data;
 @Table(name="answers")
 public @Data class AnswerEntity {
 	@Id
-	@Column(name="ANSWER_ID")
+	@Column(name="answer_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int answer_Id;
-	@Column(name="EMAIL")
+	@Column(name="Email")
 	private String email;
-	@Column(name="ANSWER")
+	@Column(name="answer")
 	private String answer;
-	@OneToOne
-	@JoinColumn(name="QUESTION_ID")
-	private QuestionEntity QuestionEntity;
+	@Column(name="question_id")
+	private int questionId;
 }
