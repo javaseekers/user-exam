@@ -14,7 +14,7 @@ import lombok.Data;
 public @Data class TestPaperEntity
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "question_id")
 	private Integer questionId;
 	private String question;
@@ -26,7 +26,7 @@ public @Data class TestPaperEntity
 	@Column(name = "test_series")
 	private String testSeries;
 	@Column(name = "question_marks")
-	private String questionMarks;
+	private Integer questionMarks;
 	private String hint;
 
 }
