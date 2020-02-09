@@ -21,6 +21,13 @@ public class GlobalExceptionHandler {
 
 		return error(HttpStatus.NOT_FOUND, e);
 	}
+	
+	@ExceptionHandler({ ExcelSheetImport.class })
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<String> handleExcelSheetImportException(ExcelSheetImport e) {
+
+		return error(HttpStatus.NOT_FOUND, e);
+	}
 
 	private ResponseEntity<String> error(HttpStatus status, Exception e) {
 

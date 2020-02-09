@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.entities.QuestionEntity;
+import com.exam.exception.ExcelSheetImport;
 import com.exam.exception.ResourceNotFoundException;
 import com.exam.repository.QuestionsRepository;
 
@@ -24,26 +25,52 @@ public class QuestionsImpl {
 		return questionsRepository.findAll();
 	}
 
-	public void saveQuestions(MultipartFile excelData) throws IOException {
+	public void saveQuestions(MultipartFile excelData) throws IOException, ExcelSheetImport {
 		List<QuestionEntity> questionEntity = new ArrayList<QuestionEntity>();
+		
+		if(excelData.getOriginalFilename().length()==0)
+		{
+			throw new ExcelSheetImport("Please select an excel file.");
+		}
+		else if(!excelData.getOriginalFilename().endsWith(".xlsx"))
+		{
+			throw new ExcelSheetImport("File selected should be a Excel file.");
+		}
+		
 		XSSFWorkbook workbook = new XSSFWorkbook(excelData.getInputStream());
 		XSSFSheet worksheet = workbook.getSheetAt(0);
 
-		for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+		for (int i = 0; i < worksheet.getPhysicalNumberOfRows(); i++) {
 			QuestionEntity questionEnty = new QuestionEntity();
 
 			XSSFRow row = worksheet.getRow(i);
-
-			questionEnty.setQuestion(row.getCell(0).getStringCellValue());
-			questionEnty.setChoice1(row.getCell(1).getStringCellValue());
-			questionEnty.setChoice2(row.getCell(2).getStringCellValue());
-			questionEnty.setChoice3(row.getCell(3).getStringCellValue());
-			questionEnty.setChoice4(row.getCell(4).getStringCellValue());
-			questionEnty.setCorrectAnswer(row.getCell(5).getStringCellValue());
-			questionEnty.setTestSeries(row.getCell(6).getStringCellValue());
-			questionEnty.setQuestionMarks((int) row.getCell(7).getNumericCellValue());
-			questionEnty.setHint(row.getCell(8).getStringCellValue());
+			
+			int j=0;
+			if (i == 0 &&!(row.getCell(j++).getStringCellValue().equalsIgnoreCase("question")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("choice1")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("choice2")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("choice3")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("choice4")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("correctAnswer")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("testSeries")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("questionMarks")
+					&& row.getCell(j++).getStringCellValue().equalsIgnoreCase("hint"))) 
+			{
+				throw new ExcelSheetImport("Invalid file format.");
+			}
+			else if(i>0)
+			{
+			questionEnty.setQuestion(row.getCell(j++).getStringCellValue());
+			questionEnty.setChoice1(row.getCell(j++).getStringCellValue());
+			questionEnty.setChoice2(row.getCell(j++).getStringCellValue());
+			questionEnty.setChoice3(row.getCell(j++).getStringCellValue());
+			questionEnty.setChoice4(row.getCell(j++).getStringCellValue());
+			questionEnty.setCorrectAnswer(row.getCell(j++).getStringCellValue());
+			questionEnty.setTestSeries(row.getCell(j++).getStringCellValue());
+			questionEnty.setQuestionMarks((int) row.getCell(j++).getNumericCellValue());
+			questionEnty.setHint(row.getCell(j++).getStringCellValue());
 			questionEntity.add(questionEnty);
+			}
 		}
 		questionsRepository.saveAll(questionEntity);
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.entities.QuestionEntity;
+import com.exam.exception.ExcelSheetImport;
 import com.exam.exception.ResourceNotFoundException;
 import com.exam.service.QuestionsImpl;
 
@@ -31,8 +32,7 @@ public class QuestionsController {
 
 	@PostMapping("/save")
 	public ResponseEntity<String> saveQuestion(@RequestParam("file") MultipartFile excelData)
-			throws IOException 
-	{
+			throws IOException, ExcelSheetImport {
 		questionsImpl.saveQuestions(excelData);
 		return ResponseEntity.ok().body("Succesfully inserted data");
 	}
