@@ -13,9 +13,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
 	@Autowired
 	private MessageUtils messageUtils;
 
-	@ExceptionHandler({UserErrorInfo.class})
+	@ExceptionHandler({ExcelDataImport.class})
 	public ResponseEntity<ErrorResponse> handleDogsServiceException(
-		UserErrorInfo e)
+		ExcelDataImport e)
 	{
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 			.body(new ErrorResponse(

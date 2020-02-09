@@ -29,10 +29,12 @@ public class QuestionsController
 		return ResponseEntity.ok().body(questionService.getQuestion());
 	}
 	@PostMapping("insert")
-	public ResponseEntity<List<TestPaperEntity>> uploadQuestions(
+	public ResponseEntity<String> uploadQuestions(
 		@RequestParam("file") MultipartFile file) throws IOException
 	{
-		return ResponseEntity.ok().body(questionService.uploadQuestions(file));
+		questionService.uploadQuestions(file);
+		
+		return ResponseEntity.ok().body("Questions uploaded successfully");
 	}
 	
 	@GetMapping("questions/{series}")
