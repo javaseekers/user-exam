@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="questions")
+@Table(name="questions", schema="exam")
 public @Data class QuestionEntity {
 	@Id
 	@Column(name="Question_ID")

@@ -1,4 +1,4 @@
-package com.exam.entities;
+package com.exam.result.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,16 +10,16 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="answers" , schema="exam")
-public @Data class AnswerEntity {
+@Table(name = "score", schema="result")
+public @Data class ScoreEntity {
 	@Id
-	@Column(name="answer_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int answer_Id;
-	@Column(name="Email")
+	private int id;
+	@Column(name = "email")
 	private String email;
-	@Column(name="answer")
-	private String answer;
-	@Column(name="question_id")
-	private int questionId;
+	@Column(name = "score")
+	private int score;
+	@Column(name = "test_series")
+	private String testSeries;
 }
