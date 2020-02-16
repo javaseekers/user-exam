@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "score", schema="result")
+@Table(name = "score", schema = "result")
 public @Data class ScoreEntity {
 	@Id
 	@Column(name = "id")
@@ -19,7 +19,16 @@ public @Data class ScoreEntity {
 	@Column(name = "email")
 	private String email;
 	@Column(name = "score")
-	private int score;
+	private long score;
 	@Column(name = "test_series")
 	private String testSeries;
+
+	public ScoreEntity(long score, String email, String testSeries) {
+
+		this.score = score;
+		this.email = email;
+		this.testSeries = testSeries;
+
+	}
+
 }

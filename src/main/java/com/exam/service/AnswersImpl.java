@@ -18,16 +18,11 @@ public class AnswersImpl {
 	ScoreRepository scoreRepository;
 
 	public void setAnswers(List<AnswerEntity> answerEntity) {
-		int localScore = 0;
+
 		answersRepository.saveAll(answerEntity);
 		AnswerEntity AnswerEntity = answerEntity.get(0);
-		localScore = answersRepository.getScore(AnswerEntity.getEmail());
-		System.out.println("&&&&&&&&&&&&&&&       "+localScore);
-		
-		  ScoreEntity scoreEntity = new ScoreEntity();
-		  scoreEntity.setEmail(AnswerEntity.getEmail());
-		  scoreEntity.setScore(localScore); scoreEntity.setTestSeries("Java");
-		  scoreRepository.save(scoreEntity);
-		 
+		ScoreEntity scoreEntity = answersRepository.getScore(AnswerEntity.getEmail());
+		scoreRepository.save(scoreEntity);
+
 	}
 }
