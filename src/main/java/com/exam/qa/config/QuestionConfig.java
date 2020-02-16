@@ -1,4 +1,4 @@
-package com.exam.qa;
+package com.exam.qa.config;
 
 import java.util.HashMap;
 
