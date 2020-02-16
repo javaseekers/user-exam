@@ -13,6 +13,6 @@ public interface AnswersRepository
 	extends
 		JpaRepository<AnswersEntity, Integer>
 {
-	@Query("select new com.exam.qa.result.entities.ResultEntity(count(a.email) as score, a.email as email) from TestPaperEntity t join AnswersEntity a on t.questionId=a.questionId and t.answer=a.answer where a.email= :email")
+	@Query("select new com.exam.qa.result.entities.ResultEntity(sum(t.questionMarks) as score, a.email as email,t.testSeries as testSeries) from TestPaperEntity t join AnswersEntity a on t.questionId=a.questionId and t.answer=a.answer where a.email= :email")
 	public ResultEntity calCulateResult(@Param("email") String email);
 }

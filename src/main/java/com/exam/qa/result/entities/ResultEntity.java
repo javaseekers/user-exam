@@ -31,10 +31,11 @@ public @Data class ResultEntity implements Serializable
 	@Column
 	private String email;
 
-	public ResultEntity(long score, String email)
+	public ResultEntity(long score, String email, String testSeries)
 	{
 		this.score = score;
 		this.email = email;
+		this.testSeries = testSeries;
 
 	}
 
