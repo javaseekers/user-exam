@@ -22,7 +22,11 @@ public @Data class ScoreEntity {
 	private long score;
 	@Column(name = "test_series")
 	private String testSeries;
-
+	
+	public ScoreEntity() {
+		
+	}
+ 
 	public ScoreEntity(long score, String email, String testSeries) {
 
 		this.score = score;

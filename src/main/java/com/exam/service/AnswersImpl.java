@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.exam.dto.ResultDto;
 import com.exam.entities.AnswerEntity;
 import com.exam.repository.AnswersRepository;
 import com.exam.result.entity.ScoreEntity;
@@ -21,7 +22,12 @@ public class AnswersImpl {
 
 		answersRepository.saveAll(answerEntity);
 		AnswerEntity AnswerEntity = answerEntity.get(0);
-		ScoreEntity scoreEntity = answersRepository.getScore(AnswerEntity.getEmail());
+		List<Object[]> listObj = answersRepository.getScore(AnswerEntity.getEmail());
+		ResultDto localResultDto = (ResultDto) listObj.get(0)[0];
+		ScoreEntity scoreEntity = new ScoreEntity();
+		scoreEntity.setScore(localResultDto.getScore());
+		scoreEntity.setEmail(localResultDto.getEmail());
+		scoreEntity.setTestSeries(localResultDto.getTestSeries());
 		scoreRepository.save(scoreEntity);
 
 	}
