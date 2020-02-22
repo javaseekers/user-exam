@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.exam.qa.config.dto.ResultDto;
 import com.exam.qa.entities.AnswersEntity;
 import com.exam.qa.entities.UserExamBo;
 import com.exam.qa.repo.AnswersRepository;
-import com.exam.qa.result.dao.ResultEntityDao;
+import com.exam.qa.result.entities.ResultEntity;
 import com.exam.qa.result.repo.ResultRepository;
 
 @Service
@@ -20,9 +21,6 @@ public class ExamService
 	@Autowired
 	ResultRepository resultRepository;
 
-	@Autowired
-	ResultEntityDao resultEntityDao;
-
 	public void examSubmit(AnswersEntity answersEntity)
 	{
 		answersRepository.save(answersEntity);
@@ -33,9 +31,17 @@ public class ExamService
 		List<AnswersEntity> userList = userExamBo.getAnswerList();
 
 		answersRepository.saveAll(userList);
-System.out.println(answersRepository.calCulateResult(userList.get(0).getEmail()));
-		resultRepository
-			.save(resultEntityDao.calCulateRes(userList.get(0).getEmail()));
+
+		ResultDto resultEntityDto = (ResultDto) answersRepository
+			.calCulateResult(userList.get(0).getEmail()).get(0)[0];
+
+		ResultEntity resultEntity = new ResultEntity();
+
+		resultEntity.setEmail(resultEntityDto.getEmail());
+		resultEntity.setScore(resultEntityDto.getScore());
+		resultEntity.setTestSeries(resultEntityDto.getTestSeries());
+
+		resultRepository.save(resultEntity);
 	}
 
 }

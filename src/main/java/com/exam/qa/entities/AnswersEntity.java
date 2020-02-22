@@ -2,33 +2,28 @@ package com.exam.qa.entities;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.exam.qa.config.dto.ResultDto;
+
 import lombok.Data;
 
 @Entity
 @Table(name = "answers", schema = "examquestions")
-//@SqlResultSetMapping(name = "resultScore", classes = {
-//	@ConstructorResult(targetClass = ResultDto.class, columns = {
-//		@ColumnResult(name = "score", type = Long.class),
-//		@ColumnResult(name = "email"), @ColumnResult(name = "testSeries")})})
-//@SqlResultSetMapping(name = "resultScore", entities = {
-//	@EntityResult(entityClass = com.exam.qa.result.entities.ResultEntity.class, fields = {
-//		@FieldResult(name = "score", column = "score"),
-//		@FieldResult(name = "email", column = "email"),
-//		@FieldResult(name = "testSeries", column = "testSeries")})})
-@SqlResultSetMapping(name = "resultScore", columns = {
-	@ColumnResult(name = "score")})
-//@NamedNativeQuery(name = "AnswersEntity.calCulateResult", query = "select sum(t.question_marks) as score, a.email as email,t.test_series as testSeries from examquestions.testpaper t join examquestions.answers a on t.question_id=a.question_id and t.answer=a.answer where a.email= :email", resultSetMapping = "resultScore")
-@NamedQuery(name="AnswersEntity.calCulateResult", query = "select sum(t.questionMarks) as score, a.email as email,t.testSeries as testSeries from TestPaperEntity t join AnswersEntity a on t.questionId=a.questionId and t.answer=a.answer where a.email= :email")
+@SqlResultSetMapping(name = "resultScore", classes = {
+	@ConstructorResult(targetClass = ResultDto.class, columns = {
+		@ColumnResult(name = "score", type = Long.class),
+		@ColumnResult(name = "email"), @ColumnResult(name = "testSeries")})})
+@NamedNativeQuery(name = "AnswersEntity.calCulateResult", query = "select sum(t.question_marks) as score, a.email as email,t.test_series as testSeries from examquestions.testpaper t join examquestions.answers a on t.question_id=a.question_id and t.answer=a.answer where a.email= :email", resultSetMapping = "resultScore")
 public @Data class AnswersEntity
 {
 	@Id
