@@ -37,6 +37,7 @@ public class QuestionConfig
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(questionDataSource());
 		em.setPackagesToScan(new String[]{"com.exam.qa.entities"});
+		em.setPersistenceUnitName("questions");
 
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -45,6 +46,9 @@ public class QuestionConfig
 			env.getProperty("hibernate.hbm2ddl.auto"));
 		properties.put("hibernate.dialect",
 			env.getProperty("hibernate.dialect"));
+		
+		properties.put("show_sql", "true");
+		
 		em.setJpaPropertyMap(properties);
 		return em;
 	}

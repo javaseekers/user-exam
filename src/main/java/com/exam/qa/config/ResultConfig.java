@@ -38,7 +38,7 @@ public class ResultConfig
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(resultDataSource());
 		em.setPackagesToScan(new String[]{"com.exam.qa.result.entities"});
-
+		em.setPersistenceUnitName("result");
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		HashMap<String, Object> properties = new HashMap<>();
@@ -46,6 +46,7 @@ public class ResultConfig
 			env.getProperty("hibernate.hbm2ddl.auto"));
 		properties.put("hibernate.dialect",
 			env.getProperty("hibernate.dialect"));
+		properties.put("show_sql", "true");
 		em.setJpaPropertyMap(properties);
 		return em;
 	}
